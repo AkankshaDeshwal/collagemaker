@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Gallary from "./Gallary/Gallary";
+import { CanvasContext } from "./context/canvas-context";
+import Canvas from "./Canvas/Canvas";
+import { useCanvas } from "./hooks/useCanvas";
 
-function App() {
+const App = () => {
+  const { canvasImageArray, addImageToCanvas, refreshCanvas } = useCanvas(
+    window.innerWidth * 0.7,
+    window.innerHeight * 0.7
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="container-fluid">
+      <div className="row">
+        <CanvasContext.Provider
+          value={{
+            canvasImageArray: canvasImageArray,
+            addImageToCanvas: addImageToCanvas,
+            refreshCanvas: refreshCanvas,
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          {/* Canvas Display */}
+          <div className="col-md-9 ">
+            <Canvas />
+            <div
+              className="container-fluid mt-4 d-flex justify-content-center"
+              style={{ backgroundColor: "#ffecc0" }}
+            >
+              <h1 className="text">Make A Collage</h1>
+            </div>
+          </div>
+
+          {/* Gallary Images */}
+          <div className="col-md-3 gallary-col ">
+            <Gallary />
+          </div>
+        </CanvasContext.Provider>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
